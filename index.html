@@ -441,6 +441,33 @@
                 margin: 0.5rem 0;
             }
         }
+
+        /* Message Styles */
+        .message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .success-message {
+            background-color: rgba(39, 174, 96, 0.1);
+            border-right: 4px solid var(--success-color);
+            color: var(--success-color);
+        }
+
+        .error-message {
+            background-color: rgba(231, 76, 60, 0.1);
+            border-right: 4px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .placeholder {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -458,26 +485,42 @@
                 <i class="fas fa-calculator"></i>
                 <h2>آلة حاسبة لتطبيق المنهجية</h2>
             </div>
+            
+            <div id="errorMessage" class="message error-message" style="display: none;">
+                <i class="fas fa-exclamation-triangle"></i> <span id="errorText"></span>
+            </div>
+            
+            <div id="successMessage" class="message success-message" style="display: none;">
+                <i class="fas fa-check-circle"></i> تم حساب النتائج بنجاح!
+            </div>
+            
             <div class="calculator-content">
                 <div class="input-section">
                     <div class="input-group">
                         <label for="peakValue"><i class="fas fa-mountain"></i> أدخل قيمة القمة (سعر الاختراق)</label>
-                        <input type="number" id="peakValue" placeholder="مثال: 2790" min="1" value="2790">
+                        <input type="number" id="peakValue" placeholder="مثال: 2790" min="1" value="2790" step="any">
                     </div>
+                    
+                    <div class="input-group">
+                        <label for="offsetValue"><i class="fas fa-plus-circle"></i> قيمة الإزاحة (الافتراضية 1.5)</label>
+                        <input type="number" id="offsetValue" placeholder="مثال: 1.5" min="0.1" value="1.5" step="0.1">
+                    </div>
+                    
                     <button id="calculateBtn" class="btn">
                         <i class="fas fa-calculator"></i> حساب الأهداف والتصحيحات
                     </button>
+                    
                     <div class="input-group" style="margin-top: 1.5rem;">
                         <p><strong>طريقة الحساب:</strong></p>
-                        <p>الهدف الأول = (√القمة + 1.5)²</p>
-                        <p>الهدف الثاني = (√الهدف الأول + 1.5)²</p>
+                        <p>الهدف الأول = (√القمة + <span id="offsetDisplay">1.5</span>)²</p>
+                        <p>الهدف الثاني = (√الهدف الأول + <span id="offsetDisplay2">1.5</span>)²</p>
                         <p>وهكذا للأهداف الثالث والرابع</p>
                     </div>
                 </div>
+                
                 <div class="results-container">
                     <h3><i class="fas fa-chart-bar"></i> النتائج</h3>
                     <div id="results">
-                        <!-- Results will be populated by JavaScript -->
                         <p class="placeholder">سيتم عرض النتائج هنا بعد إدخال قيمة القمة والحساب</p>
                     </div>
                 </div>
@@ -595,4 +638,240 @@
             <ul style="list-style: none; margin: 1rem 0;">
                 <li><i class="fas fa-check-circle" style="color: #27ae60; margin-left: 0.5rem;"></i> بناء القمة → عبر نسبة 0.96</li>
                 <li><i class="fas fa-check-circle" style="color: #27ae60; margin-left: 0.5rem;"></i> بناء القاع → عبر نسبة 0.97</li>
-                <li><i class="fas fa-check-circle" style="color: #27ae60; mar
+                <li><i class="fas fa-check-circle" style="color: #27ae60; margin-left: 0.5rem;"></i> أهداف الاختراق → عبر الجذر + 1.5</li>
+                <li><i class="fas fa-check-circle" style="color: #27ae60; margin-left: 0.5rem;"></i> مستويات المقاومة بعد هبوط الهدف الرابع → القمة × 0.97</li>
+            </ul>
+            <p>كل ذلك يجعل حركة السعر مفهومة ضمن إطار رياضي ثابت يمكن الاعتماد عليه في التحليل.</p>
+            
+            <div class="disclaimer">
+                <p><i class="fas fa-exclamation-triangle"></i> <strong>تنبيه:</strong> هذه المنهجية هي لأغراض تعليمية وتحليلية فقط، ولا تشكل نصيحة استثمارية. التداول في الأسواق المالية يحمل مخاطر خسارة رأس المال.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // انتظر حتى يتم تحميل الصفحة بالكامل
+        document.addEventListener('DOMContentLoaded', function() {
+            // تعريف المتغيرات
+            const calculateBtn = document.getElementById('calculateBtn');
+            const peakValueInput = document.getElementById('peakValue');
+            const offsetValueInput = document.getElementById('offsetValue');
+            const resultsContainer = document.getElementById('results');
+            const errorMessage = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            const successMessage = document.getElementById('successMessage');
+            const offsetDisplays = document.querySelectorAll('[id^="offsetDisplay"]');
+            
+            // تحديث عرض قيمة الإزاحة في الوصف
+            offsetValueInput.addEventListener('input', function() {
+                const offsetValue = this.value;
+                offsetDisplays.forEach(display => {
+                    display.textContent = offsetValue;
+                });
+            });
+            
+            // دالة لعرض رسالة الخطأ
+            function showError(message) {
+                errorText.textContent = message;
+                errorMessage.style.display = 'block';
+                successMessage.style.display = 'none';
+                
+                // إخفاء رسالة الخطأ بعد 5 ثواني
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 5000);
+            }
+            
+            // دالة لعرض رسالة النجاح
+            function showSuccess() {
+                errorMessage.style.display = 'none';
+                successMessage.style.display = 'block';
+                
+                // إخفاء رسالة النجاح بعد 3 ثواني
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 3000);
+            }
+            
+            // دالة لحساب الهدف
+            function calculateTarget(price, offset) {
+                return Math.pow(Math.sqrt(price) + parseFloat(offset), 2);
+            }
+            
+            // دالة لتنسيق الأرقام بفواصل
+            function formatNumber(num) {
+                // تقريب الرقم إلى رقمين عشريين
+                const rounded = Math.round(num * 100) / 100;
+                // تحويل الرقم إلى سلسلة وإضافة فواصل
+                return rounded.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+            
+            // دالة لحساب جميع الأهداف والتصحيحات
+            function calculateAllTargets(peak, offset) {
+                const targets = [];
+                let currentPrice = parseFloat(peak);
+                const offsetNum = parseFloat(offset);
+                
+                for (let i = 0; i < 4; i++) {
+                    const target = calculateTarget(currentPrice, offsetNum);
+                    const correction96 = target * 0.96;
+                    const correction97 = target * 0.97;
+                    
+                    targets.push({
+                        target: target,
+                        correction96: correction96,
+                        correction97: correction97
+                    });
+                    
+                    currentPrice = target;
+                }
+                
+                // حساب المقاومة بعد الهدف الرابع
+                const resistanceAfterFourth = peak * 0.97;
+                
+                return { targets, resistanceAfterFourth };
+            }
+            
+            // دالة لتحديث عرض النتائج
+            function updateResults(peak, offset) {
+                try {
+                    const { targets, resistanceAfterFourth } = calculateAllTargets(peak, offset);
+                    
+                    let html = `
+                        <div class="result-item">
+                            <span class="result-label">القمة المدخلة:</span>
+                            <span class="result-value">${formatNumber(peak)}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">قيمة الإزاحة:</span>
+                            <span class="result-value">${offset}</span>
+                        </div>
+                    `;
+                    
+                    targets.forEach((item, index) => {
+                        const targetNum = index + 1;
+                        html += `
+                            <div class="result-item" style="margin-top: ${index === 0 ? '0' : '1rem'}">
+                                <span class="result-label">الهدف ${targetNum}:</span>
+                                <span class="result-value">${formatNumber(item.target)}</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">تصحيح الهدف ${targetNum} (0.96):</span>
+                                <span class="correction-value">${formatNumber(item.correction96)}</span>
+                            </div>
+                        `;
+                        
+                        // إظهار تصحيح 0.97 للهدف الأول كمثال
+                        if (index === 0) {
+                            html += `
+                                <div class="result-item">
+                                    <span class="result-label">بناء قاع الهدف ${targetNum} (0.97):</span>
+                                    <span class="correction-value">${formatNumber(item.correction97)}</span>
+                                </div>
+                            `;
+                        }
+                    });
+                    
+                    html += `
+                        <div class="result-item" style="margin-top: 1.5rem; padding-top: 1rem; border-top: 2px solid #3498db;">
+                            <span class="result-label">مقاومة بعد الهدف الرابع (القمة × 0.97):</span>
+                            <span class="correction-value">${formatNumber(resistanceAfterFourth)}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">الهبوط المتوقع من الهدف 4 إلى الهدف 2:</span>
+                            <span class="correction-value">${formatNumber(targets[3].target)} → ${formatNumber(targets[1].target)}</span>
+                        </div>
+                    `;
+                    
+                    resultsContainer.innerHTML = html;
+                    showSuccess();
+                } catch (error) {
+                    showError("حدث خطأ في الحساب. يرجى التحقق من القيم المدخلة.");
+                    console.error("Calculation error:", error);
+                }
+            }
+            
+            // حساب النتائج بالقيم الافتراضية عند التحميل
+            updateResults(
+                parseFloat(peakValueInput.value), 
+                parseFloat(offsetValueInput.value)
+            );
+            
+            // إضافة مستمع حدث لزر الحساب
+            calculateBtn.addEventListener('click', function() {
+                const peakValue = peakValueInput.value.trim();
+                const offsetValue = offsetValueInput.value.trim();
+                
+                // التحقق من القيم المدخلة
+                if (!peakValue) {
+                    showError("يرجى إدخال قيمة القمة");
+                    peakValueInput.focus();
+                    return;
+                }
+                
+                if (!offsetValue) {
+                    showError("يرجى إدخال قيمة الإزاحة");
+                    offsetValueInput.focus();
+                    return;
+                }
+                
+                const peakNum = parseFloat(peakValue);
+                const offsetNum = parseFloat(offsetValue);
+                
+                if (isNaN(peakNum) || peakNum <= 0) {
+                    showError("قيمة القمة يجب أن تكون رقماً موجباً");
+                    peakValueInput.focus();
+                    return;
+                }
+                
+                if (isNaN(offsetNum) || offsetNum <= 0) {
+                    showError("قيمة الإزاحة يجب أن تكون رقماً موجباً");
+                    offsetValueInput.focus();
+                    return;
+                }
+                
+                // تحديث النتائج
+                updateResults(peakNum, offsetNum);
+            });
+            
+            // إضافة مستمع حدث لمفتاح Enter في حقل القمة
+            peakValueInput.addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    calculateBtn.click();
+                }
+            });
+            
+            // إضافة مستمع حدث لمفتاح Enter في حقل الإزاحة
+            offsetValueInput.addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    calculateBtn.click();
+                }
+            });
+            
+            // إضافة تأثير تفاعلي للبطاقات
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // إضافة تأثير لزر الحساب
+            calculateBtn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px)';
+            });
+            
+            calculateBtn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+            
+            // تسجيل رسالة في وحدة التحكم للتأكد من تحميل السكريبت
+            console.log("تم تحميل الآلة الحاسبة بنجاح!");
+        });
+    </script>
+</body>
+</html>
