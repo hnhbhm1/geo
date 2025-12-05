@@ -1,1 +1,599 @@
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منهجية تحديد القمم والقيعان والأهداف بالاعتماد على الجذر والنِسَب الهندسية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            border-bottom-left-radius: var(--border-radius);
+            border-bottom-right-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Calculator Section */
+        .calculator-section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .calculator-section:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .calculator-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--light-color);
+            padding-bottom: 1rem;
+        }
+
+        .calculator-header i {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-left: 1rem;
+        }
+
+        .calculator-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .calculator-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        input[type="number"]:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.9rem 1.8rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(41, 128, 185, 0.3);
+        }
+
+        .btn i {
+            margin-left: 0.5rem;
+        }
+
+        .results-container {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-right: 5px solid var(--secondary-color);
+        }
+
+        .result-item {
+            padding: 0.8rem 0;
+            border-bottom: 1px dashed #ddd;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .result-value {
+            font-weight: 700;
+            color: var(--success-color);
+        }
+
+        .correction-value {
+            color: var(--accent-color);
+        }
+
+        /* Main Content Sections */
+        .content-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1.8rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-top: 5px solid var(--secondary-color);
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-1 {
+            border-top-color: #3498db;
+        }
+
+        .card-2 {
+            border-top-color: #e74c3c;
+        }
+
+        .card-3 {
+            border-top-color: #27ae60;
+        }
+
+        .card-4 {
+            border-top-color: #f39c12;
+        }
+
+        .card-5 {
+            border-top-color: #9b59b6;
+        }
+
+        .card-6 {
+            border-top-color: #1abc9c;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light-color);
+            display: flex;
+            align-items: center;
+        }
+
+        h2 i {
+            margin-left: 0.8rem;
+            color: var(--secondary-color);
+        }
+
+        h3 {
+            color: var(--dark-color);
+            margin: 1.2rem 0 0.8rem;
+        }
+
+        ul, ol {
+            padding-right: 1.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .formula-box {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin: 1.2rem 0;
+            border-right: 4px solid var(--secondary-color);
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            direction: ltr;
+            text-align: center;
+        }
+
+        .highlight {
+            background-color: #fff9e6;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .ratio-comparison {
+            display: flex;
+            justify-content: space-between;
+            margin: 1.5rem 0;
+        }
+
+        .ratio-box {
+            flex: 1;
+            padding: 1.2rem;
+            border-radius: 8px;
+            text-align: center;
+            margin: 0 0.5rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .ratio-96 {
+            background-color: rgba(231, 76, 60, 0.1);
+            border-top: 4px solid var(--accent-color);
+        }
+
+        .ratio-97 {
+            background-color: rgba(39, 174, 96, 0.1);
+            border-top: 4px solid var(--success-color);
+        }
+
+        .ratio-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Process Visualization */
+        .process-visualization {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-top: 2rem;
+        }
+
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            right: 0;
+            left: 0;
+            height: 3px;
+            background-color: var(--light-color);
+            z-index: 1;
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            border: 3px solid var(--secondary-color);
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .disclaimer {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .content-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .process-steps {
+                flex-direction: column;
+            }
+            
+            .process-steps::before {
+                display: none;
+            }
+            
+            .step {
+                margin-bottom: 2rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .ratio-comparison {
+                flex-direction: column;
+            }
+            
+            .ratio-box {
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <h1><i class="fas fa-chart-line"></i> منهجية تحديد القمم والقيعان والأهداف باستخدام الجذر والنِسَب الهندسية</h1>
+            <p class="subtitle">تحليل حركة السعر باستخدام علاقة هندسية بين الجذر التربيعي للسعر والإزاحة (+1.5)، إضافة إلى نسب تصحيح دقيقة (0.96 و0.97)</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Calculator Section -->
+        <section class="calculator-section">
+            <div class="calculator-header">
+                <i class="fas fa-calculator"></i>
+                <h2>آلة حاسبة لتطبيق المنهجية</h2>
+            </div>
+            <div class="calculator-content">
+                <div class="input-section">
+                    <div class="input-group">
+                        <label for="peakValue"><i class="fas fa-mountain"></i> أدخل قيمة القمة (سعر الاختراق)</label>
+                        <input type="number" id="peakValue" placeholder="مثال: 2790" min="1" value="2790">
+                    </div>
+                    <button id="calculateBtn" class="btn">
+                        <i class="fas fa-calculator"></i> حساب الأهداف والتصحيحات
+                    </button>
+                    <div class="input-group" style="margin-top: 1.5rem;">
+                        <p><strong>طريقة الحساب:</strong></p>
+                        <p>الهدف الأول = (√القمة + 1.5)²</p>
+                        <p>الهدف الثاني = (√الهدف الأول + 1.5)²</p>
+                        <p>وهكذا للأهداف الثالث والرابع</p>
+                    </div>
+                </div>
+                <div class="results-container">
+                    <h3><i class="fas fa-chart-bar"></i> النتائج</h3>
+                    <div id="results">
+                        <!-- Results will be populated by JavaScript -->
+                        <p class="placeholder">سيتم عرض النتائج هنا بعد إدخال قيمة القمة والحساب</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Sections -->
+        <section class="content-section">
+            <div class="card card-1">
+                <h2><i class="fas fa-book-open"></i> مقدمة عن المنهجية</h2>
+                <p>تعمل هذه المنهجية على تحليل حركة السعر باستخدام علاقة هندسية بين الجذر التربيعي للسعر والإزاحة (+1.5)، إضافة إلى نسب تصحيح دقيقة (0.96 و0.97). هذه الطريقة تمنح المتداول قدرة على:</p>
+                <ul>
+                    <li>تحديد الأهداف الأربعة بعد اختراق أي قمة.</li>
+                    <li>معرفة مستويات التصحيح الحقيقية لكل هدف.</li>
+                    <li>تمييز المناطق التي تتكوّن عندها القمم والقيعان بدقة هندسية.</li>
+                    <li>تحديد المقاومة التي تمنع السعر من كسر القمة بعد الهبوط من المستهدف الرابع.</li>
+                </ul>
+            </div>
+
+            <div class="card card-2">
+                <h2><i class="fas fa-bullseye"></i> طريقة استخراج الأهداف الأربعة</h2>
+                <p>إذا كانت القمة مثلاً = <span class="highlight">2790</span>، فإن الهدف الأول يحسب كالتالي:</p>
+                <div class="formula-box">( √القمة + 1.5 )²</div>
+                <p>وبالناتج:</p>
+                <ul>
+                    <li>الهدف 1 = 2950</li>
+                    <li>الهدف 2 = ( √2950 + 1.5 )²</li>
+                    <li>الهدف 3 = ( √الهدف2 + 1.5 )²</li>
+                    <li>الهدف 4 = ( √الهدف3 + 1.5 )²</li>
+                </ul>
+                <p>كل هدف يعتمد على الجذر التربيعي للهدف السابق مع إضافة 1.5 ثم إعادة التربيع.</p>
+            </div>
+
+            <div class="card card-3">
+                <h2><i class="fas fa-ruler-combined"></i> استخراج مناطق التصحيح بعد كل هدف</h2>
+                <p>لتحديد المنطقة التي قد يصحّح إليها السعر بعد الوصول لأي هدف، يتم ضرب الهدف في:</p>
+                <div class="formula-box">الهدف × 0.96</div>
+                <p>وهذه النسبة تعطي ما يُعرف بـ <span class="highlight">منطقة "بناء القمة"</span>، حيث يفقد السعر 4% من قيمته، وهي منطقة تتكوّن عندها قمم قصيرة قبل عودة السعر للصعود.</p>
+            </div>
+
+            <div class="card card-4">
+                <h2><i class="fas fa-percentage"></i> متى نستخدم نسبة 0.97؟</h2>
+                <p>نسبة <span class="highlight">0.97</span> هي مؤشر على أن السعر قد كوّن <span class="highlight">قاعًا هندسيًا</span>. السعر عندما يفقد 3% فقط من قمته يكون قد دخل منطقة دعم صلبة، تسمّى بـ "منطقة بناء القاع".</p>
+                <p>ويستخدم هذا المستوى في حالتين:</p>
+                <ol>
+                    <li><strong>داخل منطقة عرضية</strong> (بين القاع والقمة):
+                        <br>يستخدم المستوى: <span class="formula-box" style="display: inline-block; padding: 0.3rem 0.6rem;">( √القمة × 0.97 )²</span> لتحديد نقطة التمركز داخل الرينج.</li>
+                    <li><strong>كمقاومة تمنع السعر من كسر القمة</strong> بعد التصحيح من المستهدف 4 إلى المستهدف 2:
+                        <br>نحسبها كالتالي: <span class="formula-box" style="display: inline-block; padding: 0.3rem 0.6rem;">القمة × 0.97</span> وهذا هو مستوى المقاومة المفصلي الذي يفشل السعر عادة عنده في تجاوز القمة من جديد.</li>
+                </ol>
+            </div>
+
+            <div class="card card-5">
+                <h2><i class="fas fa-balance-scale"></i> الفرق بين 0.96 و 0.97</h2>
+                <p>يمثل كل رقم منهما سلوكًا سعريًا مختلفًا تمامًا:</p>
+                <div class="ratio-comparison">
+                    <div class="ratio-box ratio-96">
+                        <div class="ratio-title">0.96</div>
+                        <p><strong>تكوين قمة</strong></p>
+                        <p>السعر يهبط 4% من مستوى الهدف ليشكّل قمة تصحيحية.</p>
+                    </div>
+                    <div class="ratio-box ratio-97">
+                        <div class="ratio-title">0.97</div>
+                        <p><strong>تكوين قاع</strong></p>
+                        <p>السعر يهبط 3% فقط من قمته، فيبني قاعًا هندسيًا قويًا.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-6">
+                <h2><i class="fas fa-clipboard-list"></i> تسلسل كامل للعملية</h2>
+                <ol>
+                    <li>اختراق القمة.</li>
+                    <li>حساب الهدف 1 باستخدام معادلة الجذر + 1.5.</li>
+                    <li>تحديد تصحيح الهدف 1 عبر (الهدف × 0.96).</li>
+                    <li>تكرار العملية للحصول على الأهداف 2، 3، 4.</li>
+                    <li>عندما يصل السعر للهدف 4، نتوقع هبوطه إلى الهدف 2.</li>
+                    <li>عند محاولة العودة للصعود بعد ذلك، تقف <strong>القمة × 0.97</strong> كمقاومة تمنع اختراق القمة.</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Process Visualization -->
+        <section class="process-visualization">
+            <h2><i class="fas fa-project-diagram"></i> تصور تسلسل العملية</h2>
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-icon">1</div>
+                    <div class="step-title">اختراق القمة</div>
+                    <p>تحديد القمة التي تم اختراقها</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">2</div>
+                    <div class="step-title">حساب الأهداف</div>
+                    <p>تطبيق معادلة (√السعر + 1.5)²</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">3</div>
+                    <div class="step-title">تحديد التصحيحات</div>
+                    <p>حساب مناطق التصحيح بنسبة 0.96</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">4</div>
+                    <div class="step-title">التصحيح النهائي</div>
+                    <p>مقاومة القمة × 0.97 بعد الهدف الرابع</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container footer-content">
+            <h3><i class="fas fa-chart-line"></i> خلاصة المنهجية</h3>
+            <p>هذه المنهجية تمنح المتداول رؤية هندسية دقيقة لحركة السعر، وتحدّد بدقة المراحل التالية:</p>
+            <ul style="list-style: none; margin: 1rem 0;">
+                <li><i class="fas fa-check-circle" style="color: #27ae60; margin-left: 0.5rem;"></i> بناء القمة → عبر نسبة 0.96</li>
+                <li><i class="fas fa-check-circle" style="color: #27ae60; margin-left: 0.5rem;"></i> بناء القاع → عبر نسبة 0.97</li>
+                <li><i class="fas fa-check-circle" style="color: #27ae60; mar
