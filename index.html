@@ -18,6 +18,22 @@
             --transition: all 0.3s ease;
         }
 
+        /* Dark Mode Variables */
+        .dark-mode {
+            --primary-color: #1a252f;
+            --secondary-color: #2980b9;
+            --accent-color: #c0392b;
+            --success-color: #219653;
+            --light-color: #2c3e50;
+            --dark-color: #ecf0f1;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            --background-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #f5f5f5;
+            --input-bg: #2d2d2d;
+            --border-color: #444;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -31,6 +47,12 @@
             background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
             min-height: 100vh;
             padding: 0;
+            transition: var(--transition);
+        }
+
+        body.dark-mode {
+            color: var(--text-color);
+            background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
         }
 
         .container {
@@ -50,6 +72,7 @@
             margin-bottom: 2rem;
             position: relative;
             overflow: hidden;
+            transition: var(--transition);
         }
 
         header::before {
@@ -73,6 +96,7 @@
             font-size: 2.2rem;
             margin-bottom: 1rem;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
         }
 
         .subtitle {
@@ -80,6 +104,36 @@
             opacity: 0.9;
             max-width: 800px;
             margin: 0 auto;
+            transition: var(--transition);
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-toggle i {
+            font-size: 1.5rem;
         }
 
         /* Calculator Section */
@@ -92,8 +146,17 @@
             transition: var(--transition);
         }
 
+        .dark-mode .calculator-section {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
         .calculator-section:hover {
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .dark-mode .calculator-section:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
         }
 
         .calculator-header {
@@ -131,6 +194,11 @@
             margin-bottom: 0.5rem;
             font-weight: 600;
             color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .dark-mode label {
+            color: var(--text-color);
         }
 
         input[type="number"] {
@@ -140,6 +208,14 @@
             border-radius: 8px;
             font-size: 1.1rem;
             transition: var(--transition);
+            background-color: white;
+            color: #333;
+        }
+
+        .dark-mode input[type="number"] {
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            border-color: var(--border-color);
         }
 
         input[type="number"]:focus {
@@ -178,6 +254,12 @@
             border-radius: 8px;
             padding: 1.5rem;
             border-right: 5px solid var(--secondary-color);
+            transition: var(--transition);
+        }
+
+        .dark-mode .results-container {
+            background-color: var(--input-bg);
+            color: var(--text-color);
         }
 
         .result-item {
@@ -185,6 +267,11 @@
             border-bottom: 1px dashed #ddd;
             display: flex;
             justify-content: space-between;
+            transition: var(--transition);
+        }
+
+        .dark-mode .result-item {
+            border-bottom-color: var(--border-color);
         }
 
         .result-item:last-child {
@@ -194,15 +281,56 @@
         .result-label {
             font-weight: 600;
             color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .dark-mode .result-label {
+            color: var(--text-color);
+        }
+
+        .result-value, .correction-value {
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 2px 6px;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .result-value:hover, .correction-value:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+
+        .dark-mode .result-value:hover, .dark-mode .correction-value:hover {
+            background-color: rgba(52, 152, 219, 0.3);
         }
 
         .result-value {
-            font-weight: 700;
             color: var(--success-color);
         }
 
         .correction-value {
             color: var(--accent-color);
+        }
+
+        .copy-tooltip {
+            position: absolute;
+            top: -30px;
+            right: 0;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: opacity 0.2s;
+            white-space: nowrap;
+            z-index: 10;
+        }
+
+        .result-value:hover .copy-tooltip,
+        .correction-value:hover .copy-tooltip {
+            opacity: 1;
         }
 
         /* Main Content Sections */
@@ -223,9 +351,18 @@
             height: 100%;
         }
 
+        .dark-mode .card {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .dark-mode .card:hover {
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.5);
         }
 
         .card-1 {
@@ -259,6 +396,12 @@
             border-bottom: 2px solid var(--light-color);
             display: flex;
             align-items: center;
+            transition: var(--transition);
+        }
+
+        .dark-mode h2 {
+            color: var(--text-color);
+            border-bottom-color: var(--border-color);
         }
 
         h2 i {
@@ -269,6 +412,11 @@
         h3 {
             color: var(--dark-color);
             margin: 1.2rem 0 0.8rem;
+            transition: var(--transition);
+        }
+
+        .dark-mode h3 {
+            color: var(--text-color);
         }
 
         ul, ol {
@@ -290,6 +438,12 @@
             font-size: 1.1rem;
             direction: ltr;
             text-align: center;
+            transition: var(--transition);
+        }
+
+        .dark-mode .formula-box {
+            background-color: var(--input-bg);
+            color: var(--text-color);
         }
 
         .highlight {
@@ -298,6 +452,12 @@
             border-radius: 4px;
             font-weight: 600;
             color: var(--dark-color);
+            transition: var(--transition);
+        }
+
+        .dark-mode .highlight {
+            background-color: #2d2d2d;
+            color: var(--text-color);
         }
 
         .ratio-comparison {
@@ -313,6 +473,12 @@
             text-align: center;
             margin: 0 0.5rem;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+        }
+
+        .dark-mode .ratio-box {
+            background-color: var(--input-bg);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
         }
 
         .ratio-96 {
@@ -338,6 +504,12 @@
             padding: 2rem;
             margin-bottom: 2rem;
             box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .dark-mode .process-visualization {
+            background-color: var(--card-bg);
+            color: var(--text-color);
         }
 
         .process-steps {
@@ -356,6 +528,11 @@
             height: 3px;
             background-color: var(--light-color);
             z-index: 1;
+            transition: var(--transition);
+        }
+
+        .dark-mode .process-steps::before {
+            background-color: var(--border-color);
         }
 
         .step {
@@ -378,12 +555,23 @@
             font-size: 1.8rem;
             color: var(--secondary-color);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .dark-mode .step-icon {
+            background-color: var(--card-bg);
+            color: var(--text-color);
         }
 
         .step-title {
             font-weight: 700;
             color: var(--primary-color);
             margin-bottom: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .dark-mode .step-title {
+            color: var(--text-color);
         }
 
         /* Footer */
@@ -395,6 +583,7 @@
             border-top-right-radius: var(--border-radius);
             margin-top: 3rem;
             text-align: center;
+            transition: var(--transition);
         }
 
         .footer-content {
@@ -409,6 +598,11 @@
             margin-top: 1.5rem;
             font-size: 0.9rem;
             line-height: 1.6;
+            transition: var(--transition);
+        }
+
+        .dark-mode .disclaimer {
+            background-color: rgba(255, 255, 255, 0.05);
         }
 
         /* Responsive Adjustments */
@@ -440,6 +634,13 @@
             .ratio-box {
                 margin: 0.5rem 0;
             }
+            
+            .theme-toggle {
+                top: 10px;
+                left: 10px;
+                width: 40px;
+                height: 40px;
+            }
         }
 
         /* Message Styles */
@@ -467,10 +668,41 @@
             font-style: italic;
             text-align: center;
             padding: 1rem;
+            transition: var(--transition);
+        }
+
+        .dark-mode .placeholder {
+            color: #aaa;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--success-color);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 1001;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="themeToggle" aria-label="تبديل الوضع الليلي">
+        <i id="themeIcon" class="fas fa-moon"></i>
+    </button>
+
     <header>
         <div class="container header-content">
             <h1><i class="fas fa-chart-line"></i> منهجية تحديد القمم والقيعان والأهداف باستخدام الجذر والنِسَب الهندسية</h1>
@@ -498,7 +730,7 @@
                 <div class="input-section">
                     <div class="input-group">
                         <label for="peakValue"><i class="fas fa-mountain"></i> أدخل قيمة القمة (سعر الاختراق)</label>
-                        <input type="number" id="peakValue" placeholder="مثال: 2790" min="1" value="2790" step="any">
+                        <input type="number" id="peakValue" placeholder="مثال: 3500" min="1" value="3500" step="any">
                     </div>
                     
                     <div class="input-group">
@@ -542,14 +774,14 @@
 
             <div class="card card-2">
                 <h2><i class="fas fa-bullseye"></i> طريقة استخراج الأهداف الأربعة</h2>
-                <p>إذا كانت القمة مثلاً = <span class="highlight">2790</span>، فإن الهدف الأول يحسب كالتالي:</p>
+                <p>إذا كانت القمة مثلاً = <span class="highlight">3500</span>، فإن الهدف الأول يحسب كالتالي:</p>
                 <div class="formula-box">( √القمة + 1.5 )²</div>
                 <p>وبالناتج:</p>
                 <ul>
-                    <li>الهدف 1 = 2950</li>
-                    <li>الهدف 2 = ( √2950 + 1.5 )²</li>
-                    <li>الهدف 3 = ( √الهدف2 + 1.5 )²</li>
-                    <li>الهدف 4 = ( √الهدف3 + 1.5 )²</li>
+                    <li>الهدف 1 = <span class="result-value copyable" data-value="3680">3680</span></li>
+                    <li>الهدف 2 = ( √3680 + 1.5 )² = <span class="result-value copyable" data-value="3864">3864</span></li>
+                    <li>الهدف 3 = ( √3864 + 1.5 )² = <span class="result-value copyable" data-value="4054">4054</span></li>
+                    <li>الهدف 4 = ( √4054 + 1.5 )² = <span class="result-value copyable" data-value="4247">4247</span></li>
                 </ul>
                 <p>كل هدف يعتمد على الجذر التربيعي للهدف السابق مع إضافة 1.5 ثم إعادة التربيع.</p>
             </div>
@@ -559,6 +791,7 @@
                 <p>لتحديد المنطقة التي قد يصحّح إليها السعر بعد الوصول لأي هدف، يتم ضرب الهدف في:</p>
                 <div class="formula-box">الهدف × 0.96</div>
                 <p>وهذه النسبة تعطي ما يُعرف بـ <span class="highlight">منطقة "بناء القمة"</span>، حيث يفقد السعر 4% من قيمته، وهي منطقة تتكوّن عندها قمم قصيرة قبل عودة السعر للصعود.</p>
+                <p>مثال: إذا كان الهدف الأول = 3680، فإن منطقة تصحيحه = <span class="correction-value copyable" data-value="3532.8">3680 × 0.96 = 3532.8</span></p>
             </div>
 
             <div class="card card-4">
@@ -567,9 +800,13 @@
                 <p>ويستخدم هذا المستوى في حالتين:</p>
                 <ol>
                     <li><strong>داخل منطقة عرضية</strong> (بين القاع والقمة):
-                        <br>يستخدم المستوى: <span class="formula-box" style="display: inline-block; padding: 0.3rem 0.6rem;">( √القمة × 0.97 )²</span> لتحديد نقطة التمركز داخل الرينج.</li>
+                        <br>يستخدم المستوى: <span class="formula-box" style="display: inline-block; padding: 0.3rem 0.6rem;">( √القمة × 0.97 )²</span> لتحديد نقطة التمركز داخل الرينج.
+                        <br>مثال: (√3500 × 0.97)² = (59.16 × 0.97)² = (57.39)² = <span class="correction-value copyable" data-value="3294.5">3294.5</span>
+                    </li>
                     <li><strong>كمقاومة تمنع السعر من كسر القمة</strong> بعد التصحيح من المستهدف 4 إلى المستهدف 2:
-                        <br>نحسبها كالتالي: <span class="formula-box" style="display: inline-block; padding: 0.3rem 0.6rem;">القمة × 0.97</span> وهذا هو مستوى المقاومة المفصلي الذي يفشل السعر عادة عنده في تجاوز القمة من جديد.</li>
+                        <br>نحسبها كالتالي: <span class="formula-box" style="display: inline-block; padding: 0.3rem 0.6rem;">القمة × 0.97</span> وهذا هو مستوى المقاومة المفصلي الذي يفشل السعر عادة عنده في تجاوز القمة من جديد.
+                        <br>مثال: 3500 × 0.97 = <span class="correction-value copyable" data-value="3395">3395</span>
+                    </li>
                 </ol>
             </div>
 
@@ -581,11 +818,13 @@
                         <div class="ratio-title">0.96</div>
                         <p><strong>تكوين قمة</strong></p>
                         <p>السعر يهبط 4% من مستوى الهدف ليشكّل قمة تصحيحية.</p>
+                        <p>مثال: من الهدف 3680 إلى <span class="correction-value copyable" data-value="3532.8">3532.8</span></p>
                     </div>
                     <div class="ratio-box ratio-97">
                         <div class="ratio-title">0.97</div>
                         <p><strong>تكوين قاع</strong></p>
                         <p>السعر يهبط 3% فقط من قمته، فيبني قاعًا هندسيًا قويًا.</p>
+                        <p>مثال: من القمة 3500 إلى <span class="correction-value copyable" data-value="3395">3395</span></p>
                     </div>
                 </div>
             </div>
@@ -593,12 +832,12 @@
             <div class="card card-6">
                 <h2><i class="fas fa-clipboard-list"></i> تسلسل كامل للعملية</h2>
                 <ol>
-                    <li>اختراق القمة.</li>
-                    <li>حساب الهدف 1 باستخدام معادلة الجذر + 1.5.</li>
-                    <li>تحديد تصحيح الهدف 1 عبر (الهدف × 0.96).</li>
+                    <li>اختراق القمة (3500).</li>
+                    <li>حساب الهدف 1 باستخدام معادلة الجذر + 1.5 (3680).</li>
+                    <li>تحديد تصحيح الهدف 1 عبر (3680 × 0.96 = 3532.8).</li>
                     <li>تكرار العملية للحصول على الأهداف 2، 3، 4.</li>
-                    <li>عندما يصل السعر للهدف 4، نتوقع هبوطه إلى الهدف 2.</li>
-                    <li>عند محاولة العودة للصعود بعد ذلك، تقف <strong>القمة × 0.97</strong> كمقاومة تمنع اختراق القمة.</li>
+                    <li>عندما يصل السعر للهدف 4 (4247)، نتوقع هبوطه إلى الهدف 2 (3864).</li>
+                    <li>عند محاولة العودة للصعود بعد ذلك، تقف <strong>القمة × 0.97 = 3395</strong> كمقاومة تمنع اختراق القمة.</li>
                 </ol>
             </div>
         </section>
@@ -610,12 +849,12 @@
                 <div class="step">
                     <div class="step-icon">1</div>
                     <div class="step-title">اختراق القمة</div>
-                    <p>تحديد القمة التي تم اختراقها</p>
+                    <p>تحديد القمة 3500 التي تم اختراقها</p>
                 </div>
                 <div class="step">
                     <div class="step-icon">2</div>
                     <div class="step-title">حساب الأهداف</div>
-                    <p>تطبيق معادلة (√السعر + 1.5)²</p>
+                    <p>تطبيق معادلة (√3500 + 1.5)² = 3680</p>
                 </div>
                 <div class="step">
                     <div class="step-icon">3</div>
@@ -625,7 +864,7 @@
                 <div class="step">
                     <div class="step-icon">4</div>
                     <div class="step-title">التصحيح النهائي</div>
-                    <p>مقاومة القمة × 0.97 بعد الهدف الرابع</p>
+                    <p>مقاومة القمة × 0.97 = 3395 بعد الهدف الرابع</p>
                 </div>
             </div>
         </section>
@@ -636,10 +875,10 @@
             <h3><i class="fas fa-chart-line"></i> خلاصة المنهجية</h3>
             <p>هذه المنهجية تمنح المتداول رؤية هندسية دقيقة لحركة السعر، وتحدّد بدقة المراحل التالية:</p>
             <ul style="list-style: none; margin: 1rem 0;">
-                <li><i class="fas fa-check-circle" style="color: #27ae60; margin-left: 0.5rem;"></i> بناء القمة → عبر نسبة 0.96</li>
-                <li><i class="fas fa-check-circle" style="color: #27ae60; margin-left: 0.5rem;"></i> بناء القاع → عبر نسبة 0.97</li>
-                <li><i class="fas fa-check-circle" style="color: #27ae60; margin-left: 0.5rem;"></i> أهداف الاختراق → عبر الجذر + 1.5</li>
-                <li><i class="fas fa-check-circle" style="color: #27ae60; margin-left: 0.5rem;"></i> مستويات المقاومة بعد هبوط الهدف الرابع → القمة × 0.97</li>
+                <li><i class="fas fa-check-circle" style="color: #27ae60; margin-left: 0.5rem;"></i> بناء القمة → عبر نسبة 0.96 (مثال: 3680 → 3532.8)</li>
+                <li><i class="fas fa-check-circle" style="color: #27ae60; margin-left: 0.5rem;"></i> بناء القاع → عبر نسبة 0.97 (مثال: 3500 → 3395)</li>
+                <li><i class="fas fa-check-circle" style="color: #27ae60; margin-left: 0.5rem;"></i> أهداف الاختراق → عبر الجذر + 1.5 (مثال: 3500 → 3680 → 3864 → 4054 → 4247)</li>
+                <li><i class="fas fa-check-circle" style="color: #27ae60; margin-left: 0.5rem;"></i> مستويات المقاومة بعد هبوط الهدف الرابع → القمة × 0.97 (3500 → 3395)</li>
             </ul>
             <p>كل ذلك يجعل حركة السعر مفهومة ضمن إطار رياضي ثابت يمكن الاعتماد عليه في التحليل.</p>
             
@@ -648,6 +887,9 @@
             </div>
         </div>
     </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">تم نسخ الرقم إلى الحافظة</div>
 
     <script>
         // انتظر حتى يتم تحميل الصفحة بالكامل
@@ -661,6 +903,37 @@
             const errorText = document.getElementById('errorText');
             const successMessage = document.getElementById('successMessage');
             const offsetDisplays = document.querySelectorAll('[id^="offsetDisplay"]');
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            const toast = document.getElementById('toast');
+            
+            // دالة لعرض إشعار مؤقت
+            function showToast(message) {
+                toast.textContent = message;
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2000);
+            }
+            
+            // دالة نسخ النص إلى الحافظة
+            function copyToClipboard(text) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('تم نسخ الرقم إلى الحافظة: ' + text);
+                }).catch(err => {
+                    console.error('فشل نسخ النص: ', err);
+                    showToast('فشل نسخ الرقم');
+                });
+            }
+            
+            // إضافة إمكانية النسخ بالنقر على الأرقام في المحتوى
+            document.querySelectorAll('.copyable').forEach(element => {
+                element.addEventListener('click', function() {
+                    const value = this.getAttribute('data-value');
+                    copyToClipboard(value);
+                });
+            });
             
             // تحديث عرض قيمة الإزاحة في الوصف
             offsetValueInput.addEventListener('input', function() {
@@ -668,7 +941,41 @@
                 offsetDisplays.forEach(display => {
                     display.textContent = offsetValue;
                 });
+                updateExamples();
             });
+            
+            // تحديث الأمثلة في المحتوى
+            function updateExamples() {
+                const peak = 3500;
+                const offset = parseFloat(offsetValueInput.value);
+                
+                // حساب الأهداف للأمثلة
+                const target1 = Math.pow(Math.sqrt(peak) + offset, 2);
+                const target2 = Math.pow(Math.sqrt(target1) + offset, 2);
+                const target3 = Math.pow(Math.sqrt(target2) + offset, 2);
+                const target4 = Math.pow(Math.sqrt(target3) + offset, 2);
+                
+                // تحديث الأمثلة في النص
+                document.querySelectorAll('#target1Example').forEach(el => {
+                    el.textContent = Math.round(target1);
+                    el.setAttribute('data-value', target1.toFixed(2));
+                });
+                
+                document.querySelectorAll('#target2Example').forEach(el => {
+                    el.textContent = Math.round(target2);
+                    el.setAttribute('data-value', target2.toFixed(2));
+                });
+                
+                document.querySelectorAll('#target3Example').forEach(el => {
+                    el.textContent = Math.round(target3);
+                    el.setAttribute('data-value', target3.toFixed(2));
+                });
+                
+                document.querySelectorAll('#target4Example').forEach(el => {
+                    el.textContent = Math.round(target4);
+                    el.setAttribute('data-value', target4.toFixed(2));
+                });
+            }
             
             // دالة لعرض رسالة الخطأ
             function showError(message) {
@@ -698,12 +1005,15 @@
                 return Math.pow(Math.sqrt(price) + parseFloat(offset), 2);
             }
             
-            // دالة لتنسيق الأرقام بفواصل
+            // دالة لتنسيق الأرقام بالإنجليزية
             function formatNumber(num) {
                 // تقريب الرقم إلى رقمين عشريين
                 const rounded = Math.round(num * 100) / 100;
-                // تحويل الرقم إلى سلسلة وإضافة فواصل
-                return rounded.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                // تحويل الرقم إلى سلسلة بالإنجليزية
+                return rounded.toLocaleString('en-US', { 
+                    minimumFractionDigits: 2, 
+                    maximumFractionDigits: 2 
+                });
             }
             
             // دالة لحساب جميع الأهداف والتصحيحات
@@ -740,11 +1050,11 @@
                     let html = `
                         <div class="result-item">
                             <span class="result-label">القمة المدخلة:</span>
-                            <span class="result-value">${formatNumber(peak)}</span>
+                            <span class="result-value copyable-result" data-value="${peak}">${formatNumber(peak)}</span>
                         </div>
                         <div class="result-item">
                             <span class="result-label">قيمة الإزاحة:</span>
-                            <span class="result-value">${offset}</span>
+                            <span class="result-value copyable-result" data-value="${offset}">${offset}</span>
                         </div>
                     `;
                     
@@ -753,11 +1063,11 @@
                         html += `
                             <div class="result-item" style="margin-top: ${index === 0 ? '0' : '1rem'}">
                                 <span class="result-label">الهدف ${targetNum}:</span>
-                                <span class="result-value">${formatNumber(item.target)}</span>
+                                <span class="result-value copyable-result" data-value="${item.target.toFixed(2)}">${formatNumber(item.target)}</span>
                             </div>
                             <div class="result-item">
                                 <span class="result-label">تصحيح الهدف ${targetNum} (0.96):</span>
-                                <span class="correction-value">${formatNumber(item.correction96)}</span>
+                                <span class="correction-value copyable-result" data-value="${item.correction96.toFixed(2)}">${formatNumber(item.correction96)}</span>
                             </div>
                         `;
                         
@@ -766,7 +1076,7 @@
                             html += `
                                 <div class="result-item">
                                     <span class="result-label">بناء قاع الهدف ${targetNum} (0.97):</span>
-                                    <span class="correction-value">${formatNumber(item.correction97)}</span>
+                                    <span class="correction-value copyable-result" data-value="${item.correction97.toFixed(2)}">${formatNumber(item.correction97)}</span>
                                 </div>
                             `;
                         }
@@ -775,21 +1085,33 @@
                     html += `
                         <div class="result-item" style="margin-top: 1.5rem; padding-top: 1rem; border-top: 2px solid #3498db;">
                             <span class="result-label">مقاومة بعد الهدف الرابع (القمة × 0.97):</span>
-                            <span class="correction-value">${formatNumber(resistanceAfterFourth)}</span>
+                            <span class="correction-value copyable-result" data-value="${resistanceAfterFourth.toFixed(2)}">${formatNumber(resistanceAfterFourth)}</span>
                         </div>
                         <div class="result-item">
                             <span class="result-label">الهبوط المتوقع من الهدف 4 إلى الهدف 2:</span>
-                            <span class="correction-value">${formatNumber(targets[3].target)} → ${formatNumber(targets[1].target)}</span>
+                            <span class="correction-value copyable-result" data-value="${targets[3].target.toFixed(2)} → ${targets[1].target.toFixed(2)}">${formatNumber(targets[3].target)} → ${formatNumber(targets[1].target)}</span>
                         </div>
                     `;
                     
                     resultsContainer.innerHTML = html;
+                    
+                    // إضافة مستمعات النقر للأرقام الجديدة
+                    document.querySelectorAll('.copyable-result').forEach(element => {
+                        element.addEventListener('click', function() {
+                            const value = this.getAttribute('data-value');
+                            copyToClipboard(value);
+                        });
+                    });
+                    
                     showSuccess();
                 } catch (error) {
                     showError("حدث خطأ في الحساب. يرجى التحقق من القيم المدخلة.");
                     console.error("Calculation error:", error);
                 }
             }
+            
+            // تحديث الأمثلة عند التحميل
+            updateExamples();
             
             // حساب النتائج بالقيم الافتراضية عند التحميل
             updateResults(
@@ -845,6 +1167,61 @@
             offsetValueInput.addEventListener('keyup', function(event) {
                 if (event.key === 'Enter') {
                     calculateBtn.click();
+                }
+            });
+            
+            // إدارة الوضع الليلي
+            function initDarkMode() {
+                // التحقق من تفضيلات النظام
+                const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                
+                // التحقق من التفضيلات المحفوظة
+                const savedTheme = localStorage.getItem('theme');
+                
+                // تحديد الوضع الافتراضي
+                if (savedTheme === 'dark' || (!savedTheme && prefersDarkMode)) {
+                    enableDarkMode();
+                } else {
+                    disableDarkMode();
+                }
+            }
+            
+            function enableDarkMode() {
+                document.body.classList.add('dark-mode');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            }
+            
+            function disableDarkMode() {
+                document.body.classList.remove('dark-mode');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+            
+            function toggleDarkMode() {
+                if (document.body.classList.contains('dark-mode')) {
+                    disableDarkMode();
+                } else {
+                    enableDarkMode();
+                }
+            }
+            
+            // تهيئة الوضع الليلي
+            initDarkMode();
+            
+            // إضافة مستمع حدث لزر تبديل الوضع
+            themeToggle.addEventListener('click', toggleDarkMode);
+            
+            // الاستماع لتغير تفضيلات النظام
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                if (!localStorage.getItem('theme')) {
+                    if (e.matches) {
+                        enableDarkMode();
+                    } else {
+                        disableDarkMode();
+                    }
                 }
             });
             
