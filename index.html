@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منهجية تحديد القمم والقيعان والأهداف بالاعتماد على الجذر والنِسَب الهندسية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        /* Dark Mode Variables */
+        .dark-mode {
+            --primary-color: #1a252f;
+            --secondary-color: #2980b9;
+            --accent-color: #c0392b;
+            --success-color: #219653;
+            --light-color: #2c3e50;
+            --dark-color: #ecf0f1;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            --background-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #f5f5f5;
+            --input-bg: #2d2d2d;
+            --border-color: #444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+            padding: 0;
+            transition: var(--transition);
+        }
+
+        body.dark-mode {
+            color: var(--text-color);
+            background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            border-bottom-left-radius: var(--border-radius);
+            border-bottom-right-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            transition: var(--transition);
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-toggle i {
+            font-size: 1.5rem;
+        }
+
+        /* Calculator Section */
+        .calculator-section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .dark-mode .calculator-section {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .calculator-section:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .dark-mode .calculator-section:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .calculator-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--light-color);
+            padding-bottom: 1rem;
+        }
+
+        .calculator-header i {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-left: 1rem;
+        }
+
+        .calculator-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .calculator-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .dark-mode label {
+            color: var(--text-color);
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            background-color: white;
+            color: #333;
+        }
+
+        .dark-mode input[type="number"] {
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            border-color: var(--border-color);
+        }
+
+        input[type="number"]:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.9rem 1.8rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(41, 128, 185, 0.3);
+        }
+
+        .btn i {
+            margin-left: 0.5rem;
+        }
+
+        .results-container {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-right: 5px solid var(--secondary-color);
+            transition: var(--transition);
+        }
+
+        .dark-mode .results-container {
+            background-color: var(--input-bg);
+            color: var(--text-color);
+        }
+
+        .result-item {
+            padding: 0.8rem 0;
+            border-bottom: 1px dashed #ddd;
+            display: flex;
+            justify-content: space-between;
+            transition: var(--transition);
+        }
+
+        .dark-mode .result-item {
+            border-bottom-color: var(--border-color);
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            font-weight: 600;
+            color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .dark-mode .result-label {
+            color: var(--text-color);
+        }
+
+        .result-value, .correction-value {
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 2px 6px;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .result-value:hover, .correction-value:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+
+        .dark-mode .result-value:hover, .dark-mode .correction-value:hover {
+            background-color: rgba(52, 152, 219, 0.3);
+        }
+
+        .result-value {
+            color: var(--success-color);
+        }
+
+        .correction-value {
+            color: var(--accent-color);
+        }
+
+        .copy-tooltip {
+            position: absolute;
+            top: -30px;
+            right: 0;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: opacity 0.2s;
+            white-space: nowrap;
+            z-index: 10;
+        }
+
+        .result-value:hover .copy-tooltip,
+        .correction-value:hover .copy-tooltip {
+            opacity: 1;
+        }
+
+        /* Main Content Sections */
+        .content-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1.8rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-top: 5px solid var(--secondary-color);
+            height: 100%;
+        }
+
+        .dark-mode .card {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .dark-mode .card:hover {
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-1 {
+            border-top-color: #3498db;
+        }
+
+        .card-2 {
+            border-top-color: #e74c3c;
+        }
+
+        .card-3 {
+            border-top-color: #27ae60;
+        }
+
+        .card-4 {
+            border-top-color: #f39c12;
+        }
+
+        .card-5 {
+            border-top-color: #9b59b6;
+        }
+
+        .card-6 {
+            border-top-color: #1abc9c;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light-color);
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .dark-mode h2 {
+            color: var(--text-color);
+            border-bottom-color: var(--border-color);
+        }
+
+        h2 i {
+            margin-left: 0.8rem;
+            color: var(--secondary-color);
+        }
+
+        h3 {
+            color: var(--dark-color);
+            margin: 1.2rem 0 0.8rem;
+            transition: var(--transition);
+        }
+
+        .dark-mode h3 {
+            color: var(--text-color);
+        }
+
+        ul, ol {
+            padding-right: 1.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .formula-box {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin: 1.2rem 0;
+            border-right: 4px solid var(--secondary-color);
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            direction: ltr;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .dark-mode .formula-box {
+            background-color: var(--input-bg);
+            color: var(--text-color);
+        }
+
+        .highlight {
+            background-color: #fff9e6;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-weight: 600;
+            color: var(--dark-color);
+            transition: var(--transition);
+        }
+
+        .dark-mode .highlight {
+            background-color: #2d2d2d;
+            color: var(--text-color);
+        }
+
+        .ratio-comparison {
+            display: flex;
+            justify-content: space-between;
+            margin: 1.5rem 0;
+        }
+
+        .ratio-box {
+            flex: 1;
+            padding: 1.2rem;
+            border-radius: 8px;
+            text-align: center;
+            margin: 0 0.5rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+        }
+
+        .dark-mode .ratio-box {
+            background-color: var(--input-bg);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .ratio-96 {
+            background-color: rgba(231, 76, 60, 0.1);
+            border-top: 4px solid var(--accent-color);
+        }
+
+        .ratio-97 {
+            background-color: rgba(39, 174, 96, 0.1);
+            border-top: 4px solid var(--success-color);
+        }
+
+        .ratio-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Process Visualization */
+        .process-visualization {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .dark-mode .process-visualization {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-top: 2rem;
+        }
+
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            right: 0;
+            left: 0;
+            height: 3px;
+            background-color: var(--light-color);
+            z-index: 1;
+            transition: var(--transition);
+        }
+
+        .dark-mode .process-steps::before {
+            background-color: var(--border-color);
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            border: 3px solid var(--secondary-color);
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .dark-mode .step-icon {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .step-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .dark-mode .step-title {
+            color: var(--text-color);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
+            margin-top: 3rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .disclaimer {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+
+        .dark-mode .disclaimer {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .content-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .process-steps {
+                flex-direction: column;
+            }
+            
+            .process-steps::before {
+                display: none;
+            }
+            
+            .step {
+                margin-bottom: 2rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .ratio-comparison {
+                flex-direction: column;
+            }
+            
+            .ratio-box {
+                margin: 0.5rem 0;
+            }
+            
+            .theme-toggle {
+                top: 10px;
+                left: 10px;
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        /* Message Styles */
+        .message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .success-message {
+            background-color: rgba(39, 174, 96, 0.1);
+            border-right: 4px solid var(--success-color);
+            color: var(--success-color);
+        }
+
+        .error-message {
+            background-color: rgba(231, 76, 60, 0.1);
+            border-right: 4px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .placeholder {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 1rem;
+            transition: var(--transition);
+        }
+
+        .dark-mode .placeholder {
+            color: #aaa;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--success-color);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 1001;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="themeToggle" aria-label="تبديل الوضع الليلي">
+        <i id="themeIcon" class="fas fa-moon"></i>
+    </button>
+
+    <header>
+        <div class="container header-content">
+            <h1><i class="fas fa-chart-line"></i> منهجية تحديد القمم والقيعان والأهداف باستخدام الجذر والنِسَب الهندسية</h1>
+            <!-- <p class="subtitle">تحليل حركة السعر باستخدام علاقة هندسية بين الجذر التربيعي للسعر والإزاحة (+1.5)، إضافة إلى نسب تصحيح دقيقة (0.96 و0.97)</p> -->
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Calculator Section -->
+        <section class="calculator-section">
+            <div class="calculator-header">
+                <i class="fas fa-calculator"></i>
+                <h2>آلة حاسبة لتطبيق المنهجية</h2>
+            </div>
+            
+            <div id="errorMessage" class="message error-message" style="display: none;">
+                <i class="fas fa-exclamation-triangle"></i> <span id="errorText"></span>
+            </div>
+            
+            <div id="successMessage" class="message success-message" style="display: none;">
+                <i class="fas fa-check-circle"></i> تم حساب النتائج بنجاح!
+            </div>
+            
+            <div class="calculator-content">
+                <div class="input-section">
+                    <div class="input-group">
+                        <label for="peakValue"><i class="fas fa-mountain"></i> أدخل قيمة القمة (سعر الاختراق)</label>
+                        <input type="number" id="peakValue" placeholder="مثال: 4381" min="1" value="4381" step="any">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="offsetValue"><i class="fas fa-plus-circle"></i> قيمة الإزاحة (الافتراضية 1.5)</label>
+                        <input type="number" id="offsetValue" placeholder="مثال: 1.5" min="0.1" value="1.5" step="0.1">
+                    </div>
+                    
+                    <button id="calculateBtn" class="btn">
+                        <i class="fas fa-calculator"></i> حساب الأهداف والتصحيحات
+                    </button>
+                    
+                    <div class="input-group" style="margin-top: 1.5rem;">
+                        <p><strong>طريقة الحساب:</strong></p>
+                        <p>الهدف الأول = (√القمة + <span id="offsetDisplay">1.5</span>)²</p>
+                        <p>الهدف الثاني = (√الهدف الأول + <span id="offsetDisplay2">1.5</span>)²</p>
+                        <p>وهكذا للأهداف الثالث والرابع</p>
+                    </div>
+                </div>
+                
+                <div class="results-container">
+                    <h3><i class="fas fa-chart-bar"></i> النتائج</h3>
+                    <div id="results">
+                        <p class="placeholder">سيتم عرض النتائج هنا بعد إدخال قيمة القمة والحساب</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Sections -->
+        <section class="content-section">
+            <div class="card card-1">
+                <h2><i class="fas fa-book-open"></i> مقدمة عن المنهجية</h2>
+                <!-- <p>تعمل هذه المنهجية على تحليل حركة السعر باستخدام علاقة هندسية بين الجذر التربيعي للسعر والإزاحة (+1.5)، إضافة إلى نسب تصحيح دقيقة (0.96 و0.97). هذه الطريقة تمنح المتداول قدرة على:</p>
+                <ul>
+                    <li>تحديد الأهداف الأربعة بعد اختراق أي قمة.</li>
+                    <li>معرفة مستويات التصحيح الحقيقية لكل هدف.</li>
+                    <li>تمييز المناطق التي تتكوّن عندها القمم والقيعان بدقة هندسية.</li>
+                    <li>تحديد المقاومة التي تمنع السعر من كسر القمة بعد الهبوط من المستهدف الرابع.</li>
+                </ul> -->
+            </div>
+
+            <div class="card card-2">
+                <h2><i class="fas fa-bullseye"></i> طريقة استخراج الأهداف الأربعة</h2>
+                <!-- <p>إذا كانت القمة مثلاً = <span class="highlight">3500</span>، فإن الهدف الأول يحسب كالتالي:</p> -->
+                <!-- <div class="formula-box">( √القمة + 1.5 )²</div> -->
+                <!-- <p>وبالناتج:</p> -->
+                <!-- <ul>
+                    <li>الهدف 1 = <span class="result-value copyable" data-value="3680">3680</span></li>
+                    <li>الهدف 2 = ( √3680 + 1.5 )² = <span class="result-value copyable" data-value="3864">3864</span></li>
+                    <li>الهدف 3 = ( √3864 + 1.5 )² = <span class="result-value copyable" data-value="4054">4054</span></li>
+                    <li>الهدف 4 = ( √4054 + 1.5 )² = <span class="result-value copyable" data-value="4247">4247</span></li>
+                </ul> -->
+                <!-- <p>كل هدف يعتمد على الجذر التربيعي للهدف السابق مع إضافة 1.5 ثم إعادة التربيع.</p> -->
+            </div>
+
+            <div class="card card-3">
+                <h2><i class="fas fa-ruler-combined"></i> استخراج مناطق التصحيح بعد كل هدف</h2>
+                <!-- <p>لتحديد المنطقة التي قد يصحّح إليها السعر بعد الوصول لأي هدف، يتم ضرب الهدف في:</p> -->
+                <!-- <div class="formula-box">الهدف × 0.96</div> -->
+                <!-- <p>وهذه النسبة تعطي ما يُعرف بـ <span class="highlight">منطقة "بناء القمة"</span>، حيث يفقد السعر 4% من قيمته، وهي منطقة تتكوّن عندها قمم قصيرة قبل عودة السعر للصعود.</p>
+                <p>مثال: إذا كان الهدف الأول = 3680، فإن منطقة تصحيحه = <span class="correction-value copyable" data-value="3532.8">3680 × 0.96 = 3532.8</span></p> -->
+            </div>
+
+            <div class="card card-4">
+                <h2><i class="fas fa-percentage"></i> متى نستخدم نسبة 0.97؟</h2>
+                <!-- <p>نسبة <span class="highlight">0.97</span> هي مؤشر على أن السعر قد كوّن <span class="highlight">قاعًا هندسيًا</span>. السعر عندما يفقد 3% فقط من قمته يكون قد دخل منطقة دعم صلبة، تسمّى بـ "منطقة بناء القاع".</p>
+                <p>ويستخدم هذا المستوى في حالتين:</p> -->
+                <!-- <ol>
+                    <li><strong>داخل منطقة عرضية</strong> (بين القاع والقمة):
+                        <br>يستخدم المستوى: <span class="formula-box" style="display: inline-block; padding: 0.3rem 0.6rem;">( √القمة × 0.97 )²</span> لتحديد نقطة التمركز داخل الرينج.
+                        <br>مثال: (√3500 × 0.97)² = (59.16 × 0.97)² = (57.39)² = <span class="correction-value copyable" data-value="3294.5">3294.5</span>
+                    </li>
+                    <li><strong>كمقاومة تمنع السعر من كسر القمة</strong> بعد التصحيح من المستهدف 4 إلى المستهدف 2:
+                        <br>نحسبها كالتالي: <span class="formula-box" style="display: inline-block; padding: 0.3rem 0.6rem;">القمة × 0.97</span> وهذا هو مستوى المقاومة المفصلي الذي يفشل السعر عادة عنده في تجاوز القمة من جديد.
+                        <br>مثال: 3500 × 0.97 = <span class="correction-value copyable" data-value="3395">3395</span>
+                    </li>
+                </ol> -->
+            </div>
+
+            <div class="card card-5">
+                <h2><i class="fas fa-balance-scale"></i> الفرق بين 0.96 و 0.97</h2>
+                <!-- <p>يمثل كل رقم منهما سلوكًا سعريًا مختلفًا تمامًا:</p> -->
+                <div class="ratio-comparison">
+                    <div class="ratio-box ratio-96">
+                        <div class="ratio-title">0.96</div>
+                        <!-- <p><strong>تكوين قمة</strong></p>
+                        <p>السعر يهبط 4% من مستوى الهدف ليشكّل قمة تصحيحية.</p> -->
+                        <!-- <p>مثال: من الهدف 3680 إلى <span class="correction-value copyable" data-value="3532.8">3532.8</span></p> -->
+                    </div>
+                    <div class="ratio-box ratio-97">
+                        <div class="ratio-title">0.97</div>
+                        <!-- <p><strong>تكوين قاع</strong></p>
+                        <p>السعر يهبط 3% فقط من قمته، فيبني قاعًا هندسيًا قويًا.</p> -->
+                        <!-- <p>مثال: من القمة 3500 إلى <span class="correction-value copyable" data-value="3395">3395</span></p> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-6">
+                <h2><i class="fas fa-clipboard-list"></i> تسلسل كامل للعملية</h2>
+                <!-- <ol>
+                    <li>اختراق القمة (3500).</li>
+                    <li>حساب الهدف 1 باستخدام معادلة الجذر + 1.5 (3680).</li>
+                    <li>تحديد تصحيح الهدف 1 عبر (3680 × 0.96 = 3532.8).</li>
+                    <li>تكرار العملية للحصول على الأهداف 2، 3، 4.</li>
+                    <li>عندما يصل السعر للهدف 4 (4247)، نتوقع هبوطه إلى الهدف 2 (3864).</li>
+                    <li>عند محاولة العودة للصعود بعد ذلك، تقف <strong>القمة × 0.97 = 3395</strong> كمقاومة تمنع اختراق القمة.</li>
+                </ol> -->
+            </div>
+        </section>
+
+        <!-- Process Visualization -->
+        <section class="process-visualization">
+            <h2><i class="fas fa-project-diagram"></i> تصور تسلسل العملية</h2>
+            <!-- <div class="process-steps">
+                <div class="step">
+                    <div class="step-icon">1</div>
+                    <div class="step-title">اختراق القمة</div>
+                    <p>تحديد القمة 3500 التي تم اختراقها</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">2</div>
+                    <div class="step-title">حساب الأهداف</div>
+                    <p>تطبيق معادلة (√3500 + 1.5)² = 3680</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">3</div>
+                    <div class="step-title">تحديد التصحيحات</div>
+                    <p>حساب مناطق التصحيح بنسبة 0.96</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">4</div>
+                    <div class="step-title">التصحيح النهائي</div>
+                    <p>مقاومة القمة × 0.97 = 3395 بعد الهدف الرابع</p>
+                </div>
+            </div> -->
+        </section>
+    </div>
+
+    <footer>
+        <div class="container footer-content">
+            <h3><i class="fas fa-chart-line"></i> خلاصة المنهجية</h3>
+            <!-- <p>هذه المنهجية تمنح المتداول رؤية هندسية دقيقة لحركة السعر، وتحدّد بدقة المراحل التالية:</p>
+            <ul style="list-style: none; margin: 1rem 0;">
+                <li><i class="fas fa-check-circle" style="color: #27ae60; margin-left: 0.5rem;"></i> بناء القمة → عبر نسبة 0.96 (مثال: 3680 → 3532.8)</li>
+                <li><i class="fas fa-check-circle" style="color: #27ae60; margin-left: 0.5rem;"></i> بناء القاع → عبر نسبة 0.97 (مثال: 3500 → 3395)</li>
+                <li><i class="fas fa-check-circle" style="color: #27ae60; margin-left: 0.5rem;"></i> أهداف الاختراق → عبر الجذر + 1.5 (مثال: 3500 → 3680 → 3864 → 4054 → 4247)</li>
+                <li><i class="fas fa-check-circle" style="color: #27ae60; margin-left: 0.5rem;"></i> مستويات المقاومة بعد هبوط الهدف الرابع → القمة × 0.97 (3500 → 3395)</li>
+            </ul>
+            <p>كل ذلك يجعل حركة السعر مفهومة ضمن إطار رياضي ثابت يمكن الاعتماد عليه في التحليل.</p> -->
+            
+            <div class="disclaimer">
+                <p><i class="fas fa-exclamation-triangle"></i> <strong>تنبيه:</strong> هذه المنهجية هي لأغراض تعليمية وتحليلية فقط، ولا تشكل نصيحة استثمارية. التداول في الأسواق المالية يحمل مخاطر خسارة رأس المال.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">تم نسخ الرقم إلى الحافظة</div>
+
+    <script>
+        // انتظر حتى يتم تحميل الصفحة بالكامل
+        document.addEventListener('DOMContentLoaded', function() {
+            // تعريف المتغيرات
+            const calculateBtn = document.getElementById('calculateBtn');
+            const peakValueInput = document.getElementById('peakValue');
+            const offsetValueInput = document.getElementById('offsetValue');
+            const resultsContainer = document.getElementById('results');
+            const errorMessage = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            const successMessage = document.getElementById('successMessage');
+            const offsetDisplays = document.querySelectorAll('[id^="offsetDisplay"]');
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            const toast = document.getElementById('toast');
+            
+            // دالة لعرض إشعار مؤقت
+            function showToast(message) {
+                toast.textContent = message;
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2000);
+            }
+            
+            // دالة نسخ النص إلى الحافظة
+            function copyToClipboard(text) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('تم نسخ الرقم إلى الحافظة: ' + text);
+                }).catch(err => {
+                    console.error('فشل نسخ النص: ', err);
+                    showToast('فشل نسخ الرقم');
+                });
+            }
+            
+            // إضافة إمكانية النسخ بالنقر على الأرقام في المحتوى
+            document.querySelectorAll('.copyable').forEach(element => {
+                element.addEventListener('click', function() {
+                    const value = this.getAttribute('data-value');
+                    copyToClipboard(value);
+                });
+            });
+            
+            // تحديث عرض قيمة الإزاحة في الوصف
+            offsetValueInput.addEventListener('input', function() {
+                const offsetValue = this.value;
+                offsetDisplays.forEach(display => {
+                    display.textContent = offsetValue;
+                });
+                updateExamples();
+            });
+            
+            // تحديث الأمثلة في المحتوى
+            function updateExamples() {
+                const peak = 3500;
+                const offset = parseFloat(offsetValueInput.value);
+                
+                // حساب الأهداف للأمثلة
+                const target1 = Math.pow(Math.sqrt(peak) + offset, 2);
+                const target2 = Math.pow(Math.sqrt(target1) + offset, 2);
+                const target3 = Math.pow(Math.sqrt(target2) + offset, 2);
+                const target4 = Math.pow(Math.sqrt(target3) + offset, 2);
+                
+                // تحديث الأمثلة في النص
+                document.querySelectorAll('#target1Example').forEach(el => {
+                    el.textContent = Math.round(target1);
+                    el.setAttribute('data-value', target1.toFixed(2));
+                });
+                
+                document.querySelectorAll('#target2Example').forEach(el => {
+                    el.textContent = Math.round(target2);
+                    el.setAttribute('data-value', target2.toFixed(2));
+                });
+                
+                document.querySelectorAll('#target3Example').forEach(el => {
+                    el.textContent = Math.round(target3);
+                    el.setAttribute('data-value', target3.toFixed(2));
+                });
+                
+                document.querySelectorAll('#target4Example').forEach(el => {
+                    el.textContent = Math.round(target4);
+                    el.setAttribute('data-value', target4.toFixed(2));
+                });
+            }
+            
+            // دالة لعرض رسالة الخطأ
+            function showError(message) {
+                errorText.textContent = message;
+                errorMessage.style.display = 'block';
+                successMessage.style.display = 'none';
+                
+                // إخفاء رسالة الخطأ بعد 5 ثواني
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 5000);
+            }
+            
+            // دالة لعرض رسالة النجاح
+            function showSuccess() {
+                errorMessage.style.display = 'none';
+                successMessage.style.display = 'block';
+                
+                // إخفاء رسالة النجاح بعد 3 ثواني
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 3000);
+            }
+            
+            // دالة لحساب الهدف
+            function calculateTarget(price, offset) {
+                return Math.pow(Math.sqrt(price) + parseFloat(offset), 2);
+            }
+            
+            // دالة لتنسيق الأرقام بالإنجليزية
+            function formatNumber(num) {
+                // تقريب الرقم إلى رقمين عشريين
+                const rounded = Math.round(num * 100) / 100;
+                // تحويل الرقم إلى سلسلة بالإنجليزية
+                return rounded.toLocaleString('en-US', { 
+                    minimumFractionDigits: 2, 
+                    maximumFractionDigits: 2 
+                });
+            }
+            
+            // دالة لحساب جميع الأهداف والتصحيحات
+            function calculateAllTargets(peak, offset) {
+                const targets = [];
+                let currentPrice = parseFloat(peak);
+                const offsetNum = parseFloat(offset);
+                
+                for (let i = 0; i < 4; i++) {
+                    const target = calculateTarget(currentPrice, offsetNum);
+                    const correction96 = target * 0.96;
+                    const correction97 = target * 0.97;
+                    
+                    targets.push({
+                        target: target,
+                        correction96: correction96,
+                        correction97: correction97
+                    });
+                    
+                    currentPrice = target;
+                }
+                
+                // حساب المقاومة بعد الهدف الرابع
+                const resistanceAfterFourth = peak * 0.97;
+                
+                return { targets, resistanceAfterFourth };
+            }
+            
+            // دالة لتحديث عرض النتائج
+            function updateResults(peak, offset) {
+                try {
+                    const { targets, resistanceAfterFourth } = calculateAllTargets(peak, offset);
+                    
+                    let html = `
+                        <div class="result-item">
+                            <span class="result-label">القمة المدخلة:</span>
+                            <span class="result-value copyable-result" data-value="${peak}">${formatNumber(peak)}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">قيمة الإزاحة:</span>
+                            <span class="result-value copyable-result" data-value="${offset}">${offset}</span>
+                        </div>
+                    `;
+                    
+                    targets.forEach((item, index) => {
+                        const targetNum = index + 1;
+                        html += `
+                            <div class="result-item" style="margin-top: ${index === 0 ? '0' : '1rem'}">
+                                <span class="result-label">الهدف ${targetNum}:</span>
+                                <span class="result-value copyable-result" data-value="${item.target.toFixed(2)}">${formatNumber(item.target)}</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">تصحيح الهدف ${targetNum} (0.96):</span>
+                                <span class="correction-value copyable-result" data-value="${item.correction96.toFixed(2)}">${formatNumber(item.correction96)}</span>
+                            </div>
+                        `;
+                        
+                        // إظهار تصحيح 0.97 للهدف الأول كمثال
+                        if (index === 0) {
+                            html += `
+                                <div class="result-item">
+                                    <span class="result-label">بناء قاع الهدف ${targetNum} (0.97):</span>
+                                    <span class="correction-value copyable-result" data-value="${item.correction97.toFixed(2)}">${formatNumber(item.correction97)}</span>
+                                </div>
+                            `;
+                        }
+                    });
+                    
+                    html += `
+                        <div class="result-item" style="margin-top: 1.5rem; padding-top: 1rem; border-top: 2px solid #3498db;">
+                            <span class="result-label">مقاومة بعد الهدف الرابع (القمة × 0.97):</span>
+                            <span class="correction-value copyable-result" data-value="${resistanceAfterFourth.toFixed(2)}">${formatNumber(resistanceAfterFourth)}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">الهبوط المتوقع من الهدف 4 إلى الهدف 2:</span>
+                            <span class="correction-value copyable-result" data-value="${targets[3].target.toFixed(2)} → ${targets[1].target.toFixed(2)}">${formatNumber(targets[3].target)} → ${formatNumber(targets[1].target)}</span>
+                        </div>
+                    `;
+                    
+                    resultsContainer.innerHTML = html;
+                    
+                    // إضافة مستمعات النقر للأرقام الجديدة
+                    document.querySelectorAll('.copyable-result').forEach(element => {
+                        element.addEventListener('click', function() {
+                            const value = this.getAttribute('data-value');
+                            copyToClipboard(value);
+                        });
+                    });
+                    
+                    showSuccess();
+                } catch (error) {
+                    showError("حدث خطأ في الحساب. يرجى التحقق من القيم المدخلة.");
+                    console.error("Calculation error:", error);
+                }
+            }
+            
+            // تحديث الأمثلة عند التحميل
+            updateExamples();
+            
+            // حساب النتائج بالقيم الافتراضية عند التحميل
+            updateResults(
+                parseFloat(peakValueInput.value), 
+                parseFloat(offsetValueInput.value)
+            );
+            
+            // إضافة مستمع حدث لزر الحساب
+            calculateBtn.addEventListener('click', function() {
+                const peakValue = peakValueInput.value.trim();
+                const offsetValue = offsetValueInput.value.trim();
+                
+                // التحقق من القيم المدخلة
+                if (!peakValue) {
+                    showError("يرجى إدخال قيمة القمة");
+                    peakValueInput.focus();
+                    return;
+                }
+                
+                if (!offsetValue) {
+                    showError("يرجى إدخال قيمة الإزاحة");
+                    offsetValueInput.focus();
+                    return;
+                }
+                
+                const peakNum = parseFloat(peakValue);
+                const offsetNum = parseFloat(offsetValue);
+                
+                if (isNaN(peakNum) || peakNum <= 0) {
+                    showError("قيمة القمة يجب أن تكون رقماً موجباً");
+                    peakValueInput.focus();
+                    return;
+                }
+                
+                if (isNaN(offsetNum) || offsetNum <= 0) {
+                    showError("قيمة الإزاحة يجب أن تكون رقماً موجباً");
+                    offsetValueInput.focus();
+                    return;
+                }
+                
+                // تحديث النتائج
+                updateResults(peakNum, offsetNum);
+            });
+            
+            // إضافة مستمع حدث لمفتاح Enter في حقل القمة
+            peakValueInput.addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    calculateBtn.click();
+                }
+            });
+            
+            // إضافة مستمع حدث لمفتاح Enter في حقل الإزاحة
+            offsetValueInput.addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    calculateBtn.click();
+                }
+            });
+            
+            // إدارة الوضع الليلي
+            function initDarkMode() {
+                // التحقق من تفضيلات النظام
+                const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                
+                // التحقق من التفضيلات المحفوظة
+                const savedTheme = localStorage.getItem('theme');
+                
+                // تحديد الوضع الافتراضي
+                if (savedTheme === 'dark' || (!savedTheme && prefersDarkMode)) {
+                    enableDarkMode();
+                } else {
+                    disableDarkMode();
+                }
+            }
+            
+            function enableDarkMode() {
+                document.body.classList.add('dark-mode');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            }
+            
+            function disableDarkMode() {
+                document.body.classList.remove('dark-mode');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+            
+            function toggleDarkMode() {
+                if (document.body.classList.contains('dark-mode')) {
+                    disableDarkMode();
+                } else {
+                    enableDarkMode();
+                }
+            }
+            
+            // تهيئة الوضع الليلي
+            initDarkMode();
+            
+            // إضافة مستمع حدث لزر تبديل الوضع
+            themeToggle.addEventListener('click', toggleDarkMode);
+            
+            // الاستماع لتغير تفضيلات النظام
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                if (!localStorage.getItem('theme')) {
+                    if (e.matches) {
+                        enableDarkMode();
+                    } else {
+                        disableDarkMode();
+                    }
+                }
+            });
+            
+            // إضافة تأثير تفاعلي للبطاقات
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // إضافة تأثير لزر الحساب
+            calculateBtn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px)';
+            });
+            
+            calculateBtn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+            
+            // تسجيل رسالة في وحدة التحكم للتأكد من تحميل السكريبت
+            console.log("تم تحميل الآلة الحاسبة بنجاح!");
+        });
+    </script>
+</body>
+</html>
